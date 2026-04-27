@@ -1,257 +1,152 @@
 package org.example;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class User {
-    public String userName = "Ola";
-    public String email = "Olalinks@gmail.com";
-    private int password;
-    private Optional phoneNumber;
-    public LocalDate date;
-    public int previousTransaction;
-    public double balance;
-    private int acountNumber = 01134050005;
-    public List<Transaction> transactions;
-    private static int salaryAdvance = 50000;
+    // Encapsulation: Keeping data secure and standardized
+    private String userName;
+    private String email;
+    private double balance;
+    private double previousTransaction;
+    private final long accountNumber = 1134050005L; // Leading zero removed to avoid Octal bug
+    private final LocalDateTime date = LocalDateTime.now();
 
-    public User() {
+    public User(String userName, String email, double initialBalance) {
         this.userName = userName;
-    }
-
-    public void moneyDeposited(int amount1) {
-        if (amount1 != 0) {
-            balance += amount1;
-            previousTransaction = amount1;
-            System.out.println("The sum of "+ amount1 + " successfully deposited on " + date);
-        }
-    }
-
-    public void moneyTransferred(int amount2){
-        if (amount2 != 0){
-            balance -= amount2;
-            previousTransaction = amount2;
-            System.out.println("The sum of "+ amount2 + " successfully transferred on " + date);
-        }
-
-    }
-
-    public void getPreviousTransaction() {
-        if(previousTransaction > 0){
-            System.out.println("Money Received: "+ previousTransaction);
-        }
-        else if(previousTransaction < 0){
-            System.out.println("Money Transferred: "+ previousTransaction);
-        }
-        else {
-            System.out.println("No transacion has occured! ");
-        }
-    }
-    public void applyForQuickLoan(){
-        if (balance >= 50000){
-//            System.out.println("Eligible to Apply for Quick Loan");
-            System.out.println("Enter amount to apply for Quick Loan " + ("Enter Q to Quit"));
-            Scanner in = new Scanner(System.in);
-            int amount = in.nextInt();
-            System.out.println("Congratulations! your account has been credited with "+ amount);
-            System.out.println("******************************************************************************************************************");
-        }
-        else if(balance < 50000){
-            System.out.println("Not Eligible for Loan! ");
-            System.out.println("Apply for salary advance " + ("Enter Q to Quit"));
-            Scanner in = new Scanner(System.in);
-            int amount = in.nextInt();
-            System.out.println("Congratulations! your account has been credited with "+ amount);
-            System.out.println("Transaction successful! An offer letter has been sent to your mail.");
-            System.out.println("******************************************************************************************************************");
-        }
-
-    }
-
-    public void getSalaryAdvance(){
-        if (balance >= 0) {
-            System.out.println("Eligible to access salary advance");
-            Scanner in = new Scanner(System.in);
-            int amount = in.nextInt();
-            balance += amount;
-
-        }
-        else {
-            System.out.println("No transaction has occured! ");
-
-        }
-    }
-
-    void showMenu() {
-        char option = '\0';
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("--------------------OSLO Savings Bank App-------------------- ");
-        System.out.println("******************************************************************************");
-
-        System.out.println("\t\t\t1. Login\n");
-        System.out.println("\t\t\t2. New User\n");
-        System.out.print("\t\t\tChoice: ");
-        int choice = sc.nextInt();
-
-        System.out.println("\t\t\tEnter your email: ");
-        String email = sc.next();
-
-        System.out.println("\n\t\t\tEnter your password: ");
-        int password = sc.nextInt();
-
-        System.out.println("******************************************************************************");
-        System.out.println("welcome " + userName + "     Account Number: " + acountNumber);
-        System.out.println("Your Id is your registered email: " + email);
-        System.out.println("******************************************");
-        System.out.println("A. Check Balance");
-        System.out.println("B. Deposit");
-        System.out.println("C. Transfer");
-        System.out.println("D. Previous Transaction");
-        System.out.println("E. Quick Loans");
-        System.out.println("F. Airtime & Data");
-        System.out.println("G. Bill payments");
-        System.out.println("Q. Quit Transaction");
-//        System.out.println("New ID is " + email);
-
-        do {
-            System.out.println("-------------------------************************************----------------------------------");
-
-            System.out.println("Enter the option");
-            System.out.println("**************************************");
-            option = sc.next().charAt(0);
-
-            Character.toUpperCase(option);
-
-            switch (option){
-                case 'A':
-                    System.out.println("**************************************");
-                    System.out.println("Balance is: "+ balance);
-                    System.out.println("**************************************");
-                    System.out.println();
-                    break;
-                case 'B':
-                    System.out.println("**************************************");
-                    System.out.println("Enter the amount to deposit");
-                    System.out.println("**************************************");
-                    int amount = sc.nextInt(); // taking an input from the user and showing inside the amount variable
-                    moneyDeposited(amount); // passing the amount variable method to the deposit method
-                    System.out.println("Transaction successful! proceed to print receipt.");
-                    break;
-                case'C':
-                    System.out.println("**************************************");
-                    System.out.println("Enter amount of money to be transferred");
-                    System.out.println("**************************************");
-                    int amount2 = sc.nextInt();
-                    moneyTransferred(amount2);
-                    System.out.println("Transaction successful! proceed to print receipt.");
-                    break;
-                case 'D':
-                    System.out.println("**************************************");
-                    getPreviousTransaction();
-                    System.out.println("**************************************");
-                    break;
-                case 'E':
-                    System.out.println("**************************************");
-                    System.out.println("Needa Quick Loan?");
-                    applyForQuickLoan();
-//                    getPreviousTransaction();
-//                    System.out.println("**************************************");
-                    getSalaryAdvance();
-
-                    break;
-                case 'G':
-                    System.out.println("**************************************");
-                    System.out.println("-------------------Bill Payments--------------------");
-                    System.out.println("\t\t\t1. CableTV\n");
-                    System.out.println("\t\t\t2. Utilities\n");
-                    System.out.println("\t\t\t3. Sports & gaming\n");
-                    System.out.println("\t\t\t4. School & professional body\n");
-                    System.out.println("\t\t\t5. Electricity & water\n");
-                    System.out.println("\t\t\t6. Visa fee payment\n");
-                    System.out.print("\t\t\tChoice: ");
-//                    int choice = 0;
-                    choice = sc.nextInt();
-                    int amount5 = sc.nextInt();
-                    moneyTransferred(amount5);
-                    System.out.println("Transaction successful! proceed to print receipt.");
-                    break;
-
-                default:
-                    System.out.println("Invalid Option! Please try again ");
-                    break;
-
-            }
-        } while (option != 'Q');
-    }
-
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail() {
         this.email = email;
+        this.balance = initialBalance;
     }
 
-    public int getPassword() {
-        return password;
+    // Core transaction methods
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            previousTransaction = amount;
+            System.out.printf("Successfully credited %.2f to your account on %s%n",
+                    amount, date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        }
     }
 
-    public void setPassword(int password) {
-        this.password = password;
+    public void transfer(double amount) {
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;
+            previousTransaction = -amount;
+            System.out.printf("Successfully debited %.2f from your account.%n", amount);
+        } else {
+            System.out.println("Insufficient funds or invalid amount.");
+        }
     }
 
-    public int getAcountNumber() {
-        return acountNumber;
+    public void showPreviousTransaction() {
+        if (previousTransaction > 0) {
+            System.out.println("Money Received: " + previousTransaction);
+        } else if (previousTransaction < 0) {
+            System.out.println("Money Transferred: " + Math.abs(previousTransaction));
+        } else {
+            System.out.println("No previous transactions found.");
+        }
     }
 
-    public void setAcountNumber(int acountNumber) {
-        this.acountNumber = acountNumber;
+    public void handleLoan(Scanner sc) {
+        System.out.println("******************************************************************************");
+        if (balance >= 50000) {
+            System.out.print("Enter amount to apply for Quick Loan (or '0' to cancel): ");
+            double amount = sc.nextDouble();
+            if (amount > 0) {
+                balance += amount;
+                previousTransaction = amount;
+                System.out.println("Congratulations! Your account has been credited with " + amount);
+            }
+        } else {
+            System.out.println("Not eligible for Quick Loan. Proceeding to Salary Advance...");
+            System.out.print("Enter amount: ");
+            double amount = sc.nextDouble();
+            balance += amount;
+            previousTransaction = amount;
+            System.out.println("Congratulations! Account credited with " + amount + " salary advance.");
+            System.out.println("An offer letter has been sent to your email: " + email);
+        }
+        System.out.println("******************************************************************************");
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
+    public void showMenu() {
+        try (Scanner sc = new Scanner(System.in)) {
+            // Initial Login Simulation
+            System.out.println("-------------------- OSLO Savings Bank App --------------------");
+            System.out.print("1. Login\n2. New User\nChoice: ");
+            sc.nextInt(); // Consume choice
+
+            System.out.print("Enter your email: ");
+            this.email = sc.next();
+            System.out.print("Enter your password: ");
+            sc.nextInt(); // Consume password
+
+            System.out.println("\n******************************************************************************");
+            System.out.println("Welcome " + userName + " | Account Number: " + accountNumber);
+            System.out.println("User ID: " + email);
+
+            char option;
+            do {
+                printMenuOptions();
+                // Handle lowercase by converting input string to uppercase
+                String input = sc.next().toUpperCase();
+                option = input.isEmpty() ? ' ' : input.charAt(0);
+
+                switch (option) {
+                    case 'A':
+                        System.out.printf("Current Balance: %.2f%n", balance);
+                        break;
+                    case 'B':
+                        System.out.print("Enter deposit amount: ");
+                        deposit(sc.nextDouble());
+                        break;
+                    case 'C':
+                        System.out.print("Enter transfer amount: ");
+                        transfer(sc.nextDouble());
+                        break;
+                    case 'D':
+                        showPreviousTransaction();
+                        break;
+                    case 'E':
+                        handleLoan(sc);
+                        break;
+                    case 'F':
+                        System.out.print("Enter amount for Airtime/Data: ");
+                        transfer(sc.nextDouble());
+                        break;
+                    case 'G':
+                        handleBillPayments(sc);
+                        break;
+                    case 'Q':
+                        System.out.println("Thank you for using OSLO BANKING APP. Logged out.");
+                        break;
+                    default:
+                        System.out.println("Invalid option. Please try again.");
+                }
+            } while (option != 'Q');
+        }
     }
 
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+    private void handleBillPayments(Scanner sc) {
+        System.out.println("--- Bill Payments ---");
+        System.out.println("1. CableTV\n2. Utilities\n3. Sports\n4. School\n5. Electricity\n6. Visa");
+        System.out.print("Choice: ");
+        sc.nextInt();
+        System.out.print("Enter amount: ");
+        transfer(sc.nextDouble());
     }
 
-    public Optional getPhoneNumber() {
-        return phoneNumber;
+    private void printMenuOptions() {
+        System.out.println("\n[A] Balance [B] Deposit [C] Transfer [D] History");
+        System.out.println("[E] Loans   [F] Airtime [G] Bills    [Q] Quit");
+        System.out.print("Selection: ");
     }
 
-    public void setPhoneNumber(Optional phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", email=" + email +
-                ", password=" + password +
-                ", acountNumber=" + acountNumber +
-                ", transactions=" + transactions +
-                '}';
+    public static void main(String[] args) {
+        // You can now initialize with specific user data
+        User u1 = new User("Mustapha", "m.moritala@example.com", 60000.0);
+        u1.showMenu();
     }
 }
